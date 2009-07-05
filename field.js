@@ -26,8 +26,8 @@ $.extend(Field.prototype, CanvasHelpers, {
         switch(cell) {
           case 0: break;
           case 1:  self.block   (j, i); break;
-          case 2:  self.goal    (j, i); break;
-          case 3:  self.block   (j, i);
+          case 3:  self.goal    (j, i); break;
+          case 2:  self.block   (j, i);
                    self.bot.draw(j, i); break;
           default: break;
         }

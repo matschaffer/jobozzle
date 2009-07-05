@@ -1,4 +1,5 @@
-var Bot = function(direction) {
+var Bot = function(field, direction) {
+  this.field = field;
   this.direction = direction;
 };
 
@@ -8,7 +9,16 @@ Bot.up    = Math.PI*1.5;
 Bot.down  = Math.PI*0.5;
 
 $.extend(Bot.prototype, CanvasHelpers, {
+  move: function() {
+    var newY = this.position.y + Math.floor(Math.sin(this.direction));
+    var newX = this.position.x + Math.floor(Math.cos(this.direction));
+    if (this.field.map[newY][newX]) {
+      this.field.map[newY][newX] += 1;
+      this.field.map[this.position.y][this.position.x] -= 1;
+    }
+  },
   draw: function(x, y) {
+    this.position = {x:x, y:y};
     var direction = this.direction;
     this.drawAt(x, y, function(c, blockSize) {
       size = blockSize - 20;
