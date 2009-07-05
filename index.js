@@ -1,7 +1,8 @@
-var field = new Field([[ 0, 0, 0, 0, 0 ],
-                       [ 0, 2, 1, 1, 0 ],
-                       [ 0, 1, 1, 1, 0 ],
-                       [ 0, 1, 1, 3, 0 ]]);
+var field = new Field(["     ",
+                       " sbb ",
+                       " bbb ",
+                       " bbe "]);
+                       
 field.bot = new Bot(field, Bot.right);
 
 function left() {

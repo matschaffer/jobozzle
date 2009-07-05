@@ -8,7 +8,7 @@ Bot.left  = Math.PI;
 Bot.up    = Math.PI*1.5;
 Bot.down  = Math.PI*0.5;
 
-$.extend(Bot.prototype, CanvasHelpers, {
+$.extend(Bot.prototype, CanvasHelper, {
   move: function() {
     var newY = this.position.y + Math.floor(Math.sin(this.direction));
     var newX = this.position.x + Math.floor(Math.cos(this.direction));

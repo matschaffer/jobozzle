@@ -1,4 +1,4 @@
-var CanvasHelpers = {
+var CanvasHelper = {
   blockSize: 30,
   drawAt: function(x, y, contents) {
     var size = this.blockSize;

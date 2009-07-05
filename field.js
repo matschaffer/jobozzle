@@ -1,8 +1,18 @@
 var Field = function(map) {
-  this.map = map;
+  this.map = this.parse(map);
 };
 
-$.extend(Field.prototype, CanvasHelpers, {
+$.extend(Field.prototype, CanvasHelper, {
+  parse: function(initialMap) {
+    return $.map(initialMap, function(row, y) {
+             return [$.map(row, function(cell, x) {
+               return new Block(cell);
+             })];
+           });
+  },
+  location: function(x, y) {
+    return this.map[y][x];
+  },
   block: function(x, y) {
     this.drawAt(x, y, function(c, size) {
       c.fillStyle = '#00f';
@@ -21,16 +31,9 @@ $.extend(Field.prototype, CanvasHelpers, {
   },
   draw: function() {
     var self = this;
-    $.each(this.map, function(i, row) {
-      $.each(row, function(j, cell) {
-        switch(cell) {
-          case 0: break;
-          case 1:  self.block   (j, i); break;
-          case 3:  self.goal    (j, i); break;
-          case 2:  self.block   (j, i);
-                   self.bot.draw(j, i); break;
-          default: break;
-        }
+    $.each(this.map, function(y, row) {
+      $.each(row, function(x, block) {
+        self.drawAt(x, y, function(c) { block.draw(c); });
       });
     });
   }
