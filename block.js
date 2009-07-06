@@ -20,7 +20,7 @@ Block.prototype = {
                       }));
   },
   drawBlock: function(c, size) {
-    var mainSize = size - 2; highlightSize = mainSize - 5;
+    var mainSize = size; highlightSize = mainSize - 4;
     c.fillStyle = this.getColor();
     c.fillRect(0, 0, mainSize, mainSize);
     c.fillStyle = this.getLightColor();
