@@ -1,5 +1,5 @@
 var field = new Field(["     ",
-                       " bbb ",
+                       " bRb ",
                        " bbb ",
                        " bbg "]);
                        
