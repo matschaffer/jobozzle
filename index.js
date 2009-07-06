@@ -1,7 +1,7 @@
 var field = new Field(["     ",
-                       " sbb ",
                        " bbb ",
-                       " bbe "]);
+                       " bbb ",
+                       " bbg "]);
                        
 field.bot = new Bot(field, Bot.right);
 
