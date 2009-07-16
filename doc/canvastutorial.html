@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Canvas tag tutorials</title>
+    <script type="text/javascript">
+      window.onload = function() {
+        var canvas = document.getElementById('tutorial');
+        if (canvas.getContext) {
+          var context = canvas.getContext('2d');
+
+          function range(x, y, fn) {
+            for (var i = x; i < y; i++) {
+              fn(i);
+            }
+          }
+          
+          function frame(fn) {
+            context.save();
+            fn();
+            context.restore();
+          }
+
+          (function hello() {
+            context.fillStyle = "rgb(200, 0, 0)";
+            context.fillRect(10, 10, 50, 50);
+            context.fillStyle = "rgba(0, 0, 200, 0.5)";
+            context.fillRect(30, 30, 50, 50);
+          });
+          
+          (function rects() {
+            context.fillRect(25, 25, 100, 100);
+            context.clearRect(45, 45, 60, 60);
+            context.strokeRect(50, 50, 50, 50);
+          });
+          
+          (function lines() {
+            context.beginPath();
+            context.moveTo(75, 50);
+            context.lineTo(100, 75);
+            context.lineTo(100, 15);
+            context.fill();
+          });
+          
+          (function arcs() {
+            context.beginPath();
+            context.arc(75, 75, 50, 0, Math.PI*2);
+            context.moveTo(110, 75);
+            context.arc(75, 75, 35, 0, Math.PI);
+            context.moveTo(65, 65);
+            context.arc(60, 65, 5, 0, Math.PI*2);
+            context.moveTo(95, 65);
+            context.arc(90, 65, 5, 0, Math.PI*2);
+            context.stroke();
+          });
+          
+          (function moreLines() {
+            context.beginPath();
+            context.moveTo(25, 25);
+            context.lineTo(105, 25);
+            context.lineTo(25, 105);
+            context.fill();
+            
+            context.beginPath();
+            context.moveTo(125, 125);
+            context.lineTo(125, 45);
+            context.lineTo(45, 125);
+            context.closePath();
+            context.stroke();
+          });
+          
+          (function moreArcs() {
+            for(i = 0; i < 4; i++) {
+              for(j = 0; j < 3; j++) {
+                context.beginPath();
+                var x = 25 + j * 50;
+                var y = 25 + i * 50;
+                var r = 20;
+                var startAngle = 0;
+                var endAngle   = Math.PI + (Math.PI * j) / 2;
+                var reverse    = i % 2;
+                
+                context.arc(x, y, r, startAngle, endAngle, reverse);
+                
+                if (i > 1) {
+                  context.fill();
+                } else {
+                  context.stroke();
+                }
+              }
+            }
+          });
+          
+          (function quadraticCurves() {
+            context.beginPath();
+            context.moveTo(75, 25);
+            context.quadraticCurveTo(25, 25, 25, 62.5);
+            context.quadraticCurveTo(25, 100, 50, 100);
+            context.quadraticCurveTo(50, 120, 30, 125);
+            context.quadraticCurveTo(60, 120, 65, 100);
+            context.quadraticCurveTo(125, 100, 125, 62.5);
+            context.quadraticCurveTo(125, 25, 75, 25);
+            context.stroke();
+          });
+          
+          (function images() {
+            var img = document.getElementById('source');
+            for (i=0;i<4;i++){
+              for (j=0;j<3;j++){
+                context.drawImage(img, 0, 0, 30, 30, j*50,i*38,50,38);
+              }
+            }
+          });
+          
+          (function colors() {
+            for (i = 0; i < 6; i++) {
+              for (j = 0; j < 6; j++) {
+                context.fillStyle = 'rgb(' + (255 - (i*40 + j*40)) + ', 0, 0)';
+                var part = 150 / 6;
+                context.fillRect(i*part, j*part, 20, 20);
+              }
+            }
+          });
+          
+          (function colors2() {
+            for (i = 0; i < 6; i++) {
+              for (j = 0; j < 6; j++) {
+                context.strokeStyle = 'rgb(0, ' + Math.floor(255-42.5*i) + ', ' 
+                                              + Math.floor(255-42.5*j) + ')';
+                context.beginPath();
+                context.arc(12.5 + j * 25, 12.5 + i * 25, 10, 0, Math.PI*2);
+                context.stroke();
+              }
+            }
+          });
+          
+          (function globalAlpha() {
+            context.fillStyle = '#fd0';
+            context.fillRect(0, 0, 75, 75);
+            context.fillStyle = '#6c0';
+            context.fillRect(75, 0, 75, 75);
+            context.fillStyle = '#09f';
+            context.fillRect(0, 75, 75, 75);
+            context.fillStyle = '#f30';
+            context.fillRect(75, 75, 75, 75);
+
+            context.fillStyle = '#fff';
+            context.globalAlpha = 0.2;
+            
+            for (i = 0; i < 12; i++) {
+              context.beginPath();
+              context.arc(75, 75, 10+3*i, 0, Math.PI*2);
+              context.fill();
+            }
+          });
+          
+          (function rgba() {
+            function rect(position) {
+              var h = 37.5, w = 150;
+              context.fillRect(0, h * position, w, h);
+            }
+            context.fillStyle = 'rgb(255,221,0)'; rect(0);
+            context.fillStyle = 'rgb(102,204,0)'; rect(1);
+            context.fillStyle = 'rgb(0,153,255)'; rect(2);
+            context.fillStyle = 'rgb(255,51,0)';  rect(3);
+            
+            for (i = 0; i < 10; i++) {
+              context.fillStyle = 'rgba(255, 255, 255,' + (i+1)/10 + ')';
+              for(j=0; j < 4; j++) {
+                context.fillRect(5+i*14, 5+j*37.5, 14, 27.5);
+              }
+            }
+          });
+          
+          (function lineWidth() {
+            for (i = 0; i < 10; i++) {
+              context.lineWidth = 1 + i;
+              var x = 5+i*14;
+              if (context.lineWidth % 2) {
+                x = x - 0.5; // Correct for aliasing
+              }
+              context.beginPath();
+              context.moveTo(x,5);
+              context.lineTo(x,140);
+              context.stroke();
+            }
+          });
+          
+          (function lineCap() {
+            var lineCaps = ['butt', 'round', 'square'];
+            
+            context.strokeStyle = '#09f';
+            context.beginPath();
+            context.moveTo(10, 10);
+            context.lineTo(140, 10);
+            context.moveTo(10, 140);
+            context.lineTo(140, 140);
+            context.stroke();
+            
+            context.strokeStyle = '#000';
+            for (i = 0; i < lineCaps.length; i++) {
+             context.lineWidth = 14;
+             context.lineCap = lineCaps[i];
+             context.beginPath();
+             context.moveTo(25+i*50, 10);
+             context.lineTo(25+i*50, 140);
+             context.stroke(); 
+            }
+          });
+          
+          (function lineJoin() {
+            var lineJoins = ['round', 'bevel', 'miter'];
+            context.lineWidth = 10;
+            for (i = 0; i < lineJoins.length; i++) {
+              context.lineJoin = lineJoins[i];
+              context.beginPath();
+              var top = 5+i*40, bottom = 45+i*40;
+              context.moveTo(-5, top);
+              context.lineTo(35, bottom);
+              context.lineTo(75, top);
+              context.lineTo(115, bottom);
+              context.lineTo(155, top);
+              context.stroke();
+            }
+          });
+          
+          (function linearGradient() {
+            var grad1 = context.createLinearGradient(0, 0, 0, 150);
+            grad1.addColorStop(0, '#0be');
+            grad1.addColorStop(0.5, '#fff');
+            grad1.addColorStop(0.5, '#3c0');
+            grad1.addColorStop(1, '#fff');
+            
+            var grad2 = context.createLinearGradient(0, 50, 0, 95);
+            grad2.addColorStop(0.5, '#000');
+            grad2.addColorStop(1, 'rgba(0,0,0,0)');
+            
+            context.fillStyle = grad1;
+            context.strokeStyle = grad2;
+            
+            context.fillRect(10, 10, 130, 130);
+            context.strokeRect(50, 50, 50, 50);
+          });
+          
+          (function radialGradient() {
+            var rg1 = context.createRadialGradient(45, 45, 10, 52, 50, 30);
+            rg1.addColorStop(0, '#A7D30C');
+            rg1.addColorStop(0.9, '#019F62');
+            rg1.addColorStop(0.98, 'rgba(1,159,98,0)');
+            
+            var rg2 = context.createRadialGradient(105,105,20,112,120,50);
+            rg2.addColorStop(0, '#FF5F98');
+            rg2.addColorStop(0.75, '#FF0188');
+            rg2.addColorStop(0.95, 'rgba(255,1,136,0)');
+
+            var rg3 = context.createRadialGradient(95,15,15,102,20,40);
+            rg3.addColorStop(0, '#00C9FF');
+            rg3.addColorStop(0.8, '#00B5E2');
+            rg3.addColorStop(0.95, 'rgba(0,201,255,0)');
+
+            var rg4 = context.createRadialGradient(0,150,50,0,140,90);
+            rg4.addColorStop(0, '#F4F201');
+            rg4.addColorStop(0.8, '#E4C700');
+            rg4.addColorStop(0.95, 'rgba(228,199,0,0)');
+
+            // draw shapes
+            context.fillStyle = rg4;
+            context.fillRect(0,0,150,150);
+            context.fillStyle = rg3;
+            context.fillRect(0,0,150,150);
+            context.fillStyle = rg2;
+            context.fillRect(0,0,150,150);
+            context.fillStyle = rg1;
+            context.fillRect(0,0,150,150);
+          });
+          
+          (function patterns() {
+            var img = document.getElementById('source');
+            var ptrn = context.createPattern(img,'repeat');
+            context.fillStyle = ptrn;
+            context.fillRect(0,0,150,150);
+          });
+          
+          (function shadowdText() {
+            context.shadowOffsetX = 2;
+            context.shadowOffsetY = 2;
+            context.shadowBlur = 2;
+            context.shadowColor = 'rgba(0,0,0,0.5)';
+            
+            context.font= "15px Times";
+            context.fillStyle = "#000";
+            context.fillText("String with Shadowz", 5, 30);
+          });
+          
+          (function saveAndRestore() {
+            context.fillRect(0, 0, 150, 150);
+            context.save();
+            
+            context.fillStyle = '#09f';
+            context.fillRect(15, 15, 120, 120);
+            context.save();
+            
+            context.fillStyle = '#fff';
+            context.globalAlpha = '0.5';
+            context.fillRect(30, 30, 90, 90);
+            
+            context.restore();
+            context.fillRect(45, 45, 60, 60);
+            
+            context.restore();
+            context.fillRect(60, 60, 30, 30);
+          });
+          
+          (function translate() {
+            context.save();
+            context.translate(10, 10);
+            context.restore();
+            context.translate(10, 10);
+            context.fillRect(0, 0, 30, 30);
+          });
+          
+          (function rotateAndScale() {
+            context.save();
+            context.translate(75, 75);
+            context.scale(1.7, 1);
+            context.fillRect(-2, -2, 4, 4);
+            range(0, 8, function() {
+              context.rotate((Math.PI*2)/8);
+              context.fillRect(30, -5, 10, 10);
+            });
+            context.restore();
+            context.fillText('back to normal', 10, 10);
+          });
+          
+          (function clipping() {
+            context.fillRect(0, 0, 150, 150);
+            
+            context.beginPath();
+            context.arc(75, 75, 60, 0, Math.PI*2);
+            context.clip();
+            
+            gradient = context.createLinearGradient(0, 0, 0, 150);
+            gradient.addColorStop(0, '#669');
+            gradient.addColorStop(1, '#138');
+            
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 150, 150);
+            
+            var drawStar = function(size) {
+              context.beginPath();
+              context.moveTo(size, 0);
+
+              frame(function() {
+                context.strokeStyle = '#fff';            
+                context.beginPath();
+                context.moveTo(size, 0);
+                range(0, 9, function(i) {
+                  context.rotate(Math.PI/5);
+                  if (i % 2) {
+                    context.lineTo(size, 0);
+                  } else {
+                    context.lineTo(size*0.4, 0);
+                  }
+                });
+                context.closePath();
+                context.fill();
+              });
+            };
+            
+            range(0, 50, function(i) {
+              context.fillStyle = '#fff';
+              frame(function() {
+                var rand = function() { return Math.floor(Math.random()*150); };
+                context.translate(rand(), rand());
+                drawStar(Math.floor(Math.random()*4)+2);
+              });
+            });
+          });
+          
+          (function animation() { 
+            
+          })();
+        }
+      };
+    </script>
+    <style type="text/css">
+      #tutorial {
+        border: 1px solid black;
+      }
+      #sources {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Here's a canvas:</p>
+    <canvas id="tutorial" width="150px" height="200px">
+      Sorry, you'll need a browser with canvas support for this.
+    </canvas>
+    <div id="sources">
+      <!-- <img id="source" src="Picture 1.png" />       -->
+    </div>
+  </body>
+</html>
