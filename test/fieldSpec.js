@@ -20,6 +20,14 @@ Screw.Unit(function() {
       var fieldWithoutStars = new Field(["rgbr "]);
       expect(fieldWithStars.hasStars()).to(equal, true);
       expect(fieldWithoutStars.hasStars()).to(equal, false);
-    })
+    });
+
+    it("should update the given bot and position when placed", function() {
+      var field = new Field([" b "]);
+      var bot = new Bot();
+      field.place(bot, 1, 0);
+      expect(bot.position).to(equal, {x:1, y:0});
+      expect(field.location(1,0).bot).to_not(be_null);
+    });
   });
 });

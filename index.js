@@ -1,29 +1,26 @@
 var field = new Field(["     ",
-                       " bRb ",
-                       " bbb ",
-                       " bbg "]);
-                       
-field.bot = new Bot(field, Bot.right);
+                       " bRbb ",
+                       " bBbb ",
+                       " bbGb ",
+                       " rrRb "]);
+var bot = new Bot(Bot.right);
+field.place(bot, 3, 3);
 
 function left() {
-  field.bot.direction -= Math.PI * 0.5;
+  bot.left();
   field.draw();
 }
 
 function right() {
-  field.bot.direction += Math.PI * 0.5;  
+  bot.right();
   field.draw();
 }
 
 function move() {
-  field.bot.move();
+  bot.move();
   field.draw();
 };
 
 $(function() {
-  right();
-  move();
-  move();
-  left();
-  move();
+  field.draw();
 });

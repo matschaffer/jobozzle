@@ -7,7 +7,7 @@ Block.red   = Block.r = Block.R = [255, 0, 0];
 Block.green = Block.g = Block.G = [0, 255, 0];
 Block.blue  = Block.b = Block.B = [0, 0, 255];
 
-Block.prototype = {
+$.extend(Block.prototype, CanvasHelper, {
   toRGB: function(colorArray) {
     return 'rgb(' + colorArray.join(', ') + ')';
   },
@@ -27,22 +27,25 @@ Block.prototype = {
     c.fillRect(2, 2, highlightSize, highlightSize);
   },
   drawStar: function(c, size) {
-    var rotation = (Math.PI * 2) / 10;
-    var outerSize = (size - 12) / 2;
-    var innerSize = outerSize - 5;
+    this.protect(function() {
+      var rotation = (Math.PI * 2) / 10;
+      var outerSize = (size - 12) / 2;
+      var innerSize = outerSize - 5;
 
-    c.fillStyle = '#fff';
-    c.translate(size / 2, size / 2);
-    c.beginPath();
-    c.moveTo(outerSize, 0);
-    for(i = 0; i < 10; i++) {
-      c.rotate(rotation);
-      c.lineTo((i % 2)?outerSize:innerSize, 0);
-    }
-    c.fill();
+      c.fillStyle = '#fff';
+      c.translate(size / 2, size / 2);
+      c.beginPath();
+      c.moveTo(outerSize, 0);
+      for(i = 0; i < 10; i++) {
+        c.rotate(rotation);
+        c.lineTo((i % 2)?outerSize:innerSize, 0);
+      }
+      c.fill();
+    })
   },
   draw: function(c, size) {
     this.drawBlock(c, size);
     if (this.star) this.drawStar(c, size - 2);
+    if (this.bot) this.bot.draw(c);
   }
-};
+});

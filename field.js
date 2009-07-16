@@ -29,6 +29,11 @@ $.extend(Field.prototype, CanvasHelper, {
     });
     return hasStars;
   },
+  place: function(bot, x, y) {
+    bot.field = this;
+    bot.setPosition(x, y);
+    this.location(x, y).bot = bot;
+  },
   draw: function() {
     var self = this;
     $.each(this.map, function(y, row) {
